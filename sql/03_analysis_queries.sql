@@ -42,3 +42,16 @@ FROM (
   FROM `mlb-data-pipeline-489220.mlb_pipeline.games_clean`
 )
 GROUP BY winner_location;
+
+
+-- ============================================
+-- Query 3: Runs Scored by Month
+-- ============================================
+
+SELECT
+  month,
+  COUNT(*) AS games_played,
+  ROUND(AVG(total_runs),2) AS avg_total_runs
+FROM `mlb-data-pipeline-489220.mlb_pipeline.games_clean`
+GROUP BY month
+ORDER BY month;
