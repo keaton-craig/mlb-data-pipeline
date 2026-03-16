@@ -23,3 +23,22 @@ FROM (
 GROUP BY team
 HAVING COUNT(*) > 150
 ORDER BY avg_run_diff DESC;
+
+
+-- ============================================
+-- Query 2: Home vs Away Win Rate
+-- ============================================
+
+SELECT
+  winner_location,
+  COUNT(*) AS wins,
+  SAFE_DIVIDE(COUNT(*), SUM(COUNT(*)) OVER()) AS win_rate
+FROM (
+  SELECT
+    CASE
+      WHEN home_score > away_score THEN 'home'
+      ELSE 'away'
+    END AS winner_location
+  FROM `mlb-data-pipeline-489220.mlb_pipeline.games_clean`
+)
+GROUP BY winner_location;
